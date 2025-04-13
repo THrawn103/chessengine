@@ -1381,6 +1381,44 @@ var Chess = function(fen) {
         }
         return eval;
       },
+ minimax: function(depth, isMaximizingPlayer,game) {
+  if (depth === 0 || game.isGameOver()) {
+    return evaluateBoard(game.board());
+  }
+
+  const moves = game.moves();
+  let bestEval = isMaximizingPlayer ? -Infinity : Infinity;
+
+  for (const move of moves) {
+    game.move(move);
+    const eval = minimax(depth - 1, !isMaximizingPlayer);
+    game.undo();
+
+    bestEval = isMaximizingPlayer
+      ? Math.max(bestEval, eval)
+      : Math.min(bestEval, eval);
+  }
+
+  return bestEval;
+}
+      getBestMove:function(depth, game) {
+  const moves = game.moves();
+  let bestMove = null;
+  let bestEval = -Infinity;
+
+  for (const move of moves) {
+    game.move(move);
+    const eval = minimax(depth - 1, false,game);
+    game.undo();
+
+    if (eval > bestEval) {
+      bestEval = eval;
+      bestMove = move;
+    }
+  }
+
+  return bestMove;
+}
       validate_fen: function(fen) {
         return validate_fen(fen)
       },
