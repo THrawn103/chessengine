@@ -24,7 +24,7 @@ function whiteMove() {
         board.position(game.fen())
         moved = true;
       }
-      else if(possibleMoves[i].includes("x") )
+     /* else if(possibleMoves[i].includes("x") )
       {
         mimic = new Chess(game.fen());
         mimic.move(possibleMoves[i]);
@@ -33,12 +33,12 @@ function whiteMove() {
         eval = mimic.evaluate(mimic.fen());
       }
       notRandom=true;
-    }
+    }*/
   }
   if(notRandom==true)
     {
 
-    for(let i = 0;i< possibleMoves.length;i++)
+   /* for(let i = 0;i< possibleMoves.length;i++)
       {
         mimic = new Chess(game.fen());
         mimic.move(possibleMoves[i]);
@@ -49,15 +49,18 @@ function whiteMove() {
             console.log(mimic.evaluate(mimic.fen()));
             break;
           }
-        }
+        }*/
+      
   } 
   if(moved == false)
   {
       var randomIdx = Math.floor(Math.random() * possibleMoves.length);
-      
+       mimic = new Chess(game.fen());
       // updates javascript board state
-      game.move(possibleMoves[randomIdx]);
-      
+      const move = getBestMove(2,mimic); // depth 2 for simplicity
+console.log("Best move:", move);
+game.move(move);
+
       // changes html board state
       board.position(game.fen());
     
